@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-pid_t SystemPosixWaitpid_waitpid(pid_t pid, int *result, int opts)
+pid_t SystemPosixWaitpid_waitpid(pid_t pid, int *result, int *out_full_status, int opts)
 {
   int options = 0;
   if (opts & 1) options |= WNOHANG;
@@ -10,6 +10,7 @@ pid_t SystemPosixWaitpid_waitpid(pid_t pid, int *result, int opts)
 
   int status = 0;
   int retval = waitpid(pid, result ? &status : 0, options);
+  *out_full_status = status;
   if (result)
   {
     if (WIFEXITED(status)) { *result = WEXITSTATUS(status); }
