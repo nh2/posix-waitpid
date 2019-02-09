@@ -11,7 +11,7 @@ import Foreign.C.Types(CInt(..))
 import System.Posix.Signals (Signal)
 import System.Posix.Types (CPid(..))
 
-foreign import ccall unsafe "SystemPosixWaitpid_waitpid" c_waitpid :: CPid -> Ptr CInt -> CInt -> IO CPid
+foreign import ccall safe "SystemPosixWaitpid_waitpid" c_waitpid :: CPid -> Ptr CInt -> CInt -> IO CPid
 
 data Flag = NoHang | IncludeUntraced | IncludeContinued deriving Show
 data Status = Exited Int | Signaled Signal | Stopped Signal | Continued deriving (Show, Eq)
