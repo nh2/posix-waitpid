@@ -11,7 +11,7 @@ build-type:          Simple
 cabal-version:       >= 1.6
 
 library
-  build-depends:       base == 4.*, unix
+  build-depends:       base >= 4.0 && < 5, unix
   c-sources:           System/Posix/waitpid_c.c
   exposed-modules:     System.Posix.Waitpid
   extensions:          ForeignFunctionInterface
