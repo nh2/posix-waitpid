@@ -22,8 +22,8 @@ foreign import ccall safe "SystemPosixWaitpid_waitpid" c_waitpid :: CPid -> Ptr 
 -- Source:
 --     https://www.gnu.org/software/libc/manual/html_node/Exit-Status.html#Exit-Status
 
-data Flag = NoHang | IncludeUntraced | IncludeContinued deriving Show
-data Status = Exited Int | Signaled Signal | Stopped Signal | Continued deriving (Show, Eq)
+data Flag = NoHang | IncludeUntraced | IncludeContinued deriving (Eq, Ord, Show)
+data Status = Exited Int | Signaled Signal | Stopped Signal | Continued deriving (Eq, Ord, Show)
 -- | Returning the full status is important for some use cases,
 -- for example ptrace(), which sets higher bits of the status in
 -- certain situations.
