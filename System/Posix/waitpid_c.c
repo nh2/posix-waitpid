@@ -1,13 +1,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-pid_t SystemPosixWaitpid_waitpid(pid_t pid, int *result, int *out_full_status, int opts)
+pid_t SystemPosixWaitpid_waitpid(pid_t pid, int *result, int *out_full_status, int options)
 {
-  int options = 0;
-  if (opts & 1) options |= WNOHANG;
-  if (opts & 2) options |= WUNTRACED;
-  if (opts & 4) options |= WCONTINUED;
-
   int status = 0;
   int retval = waitpid(pid, result ? &status : 0, options);
   *out_full_status = status;
