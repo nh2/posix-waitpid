@@ -22,7 +22,7 @@ foreign import ccall safe "SystemPosixWaitpid_waitpid" c_waitpid :: CPid -> Ptr 
 -- Source:
 --     https://www.gnu.org/software/libc/manual/html_node/Exit-Status.html#Exit-Status
 
-data Flag = NoHang | IncludeUntraced | IncludeContinued | FlagOther CInt deriving (Eq, Ord, Show)
+data Flag = NoHang | IncludeUntraced | IncludeContinued | AllChildren | FlagOther CInt deriving (Eq, Ord, Show)
 data Status = Exited Int | Signaled Signal | Stopped Signal | Continued deriving (Eq, Ord, Show)
 -- | Returning the full status is important for some use cases,
 -- for example ptrace(), which sets higher bits of the status in
@@ -40,6 +40,7 @@ waitpidFullStatus pid flags = alloca $ \resultPtr -> alloca $ \fullStatusPtr -> 
   flagValue NoHang = 1
   flagValue IncludeUntraced = 2
   flagValue IncludeContinued = 4
+  flagValue AllChildren = 0x40000000 -- `__WALL`
   flagValue (FlagOther i) = i
   extractResult res | res < 0x10000 = Exited (fromIntegral res)
                     | res < 0x20000 = Signaled (res - 0x10000)
